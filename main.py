@@ -15,13 +15,13 @@ async def lifespan(app: FastAPI):
     yield #indicacion que el sistema usa para terminar el proceso (espera a que se llamen las rutas)
     db_manager.close_all()
     dw_manager.close_all()
-
     print("fin")
 
 
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(live_router)
+app.include_router(scheduled_router)
 
 @app.get("/")
 def root():

@@ -3,7 +3,7 @@ from core import get_db, get_dw
 from controllers import DimProveedorController, DimVinoController
 from models import Proveedor, Vino
 
-router = APIRouter(prefix="/live", tags=["live"])
+router = APIRouter(prefix="/live", tags=["Live"])
 
 
 

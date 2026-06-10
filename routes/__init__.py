@@ -1,8 +1,8 @@
 from .live_routes import router as live_router
-#from .dim_vino_routes import router as dimVino_router
+from .scheduled_routes import router as scheduled_router
 
 
 __all__ = [
     "live_router",
-    #"dimVino_router"
+    "scheduled_router"
 ]
