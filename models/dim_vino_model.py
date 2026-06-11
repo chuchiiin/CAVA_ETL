@@ -47,3 +47,8 @@ class DimVinoModel:
                 INSERT INTO dim_vino (vino_id_original, nombre, marca, tipo, region, cosecha, anejado, alcohol, volumen)
                 VALUES ('{vinoDB.vino_id}', '{vinoDB.nombre}', '{vinoDB.marca}', '{vinoDB.tipo}', '{vinoDB.region}','{vinoDB.cosecha}', '{vinoDB.anejado}', '{vinoDB.alcohol}', '{vinoDB.volumen}');
             """)
+
+    def dbId_2_dwKey(self, dbId: str) -> int:
+        with self.dw.cursor() as cur:
+            cur.execute(f"SELECT vino_key FROM dim_vino WHERE vino_id_original = '{dbId}';")
+            return cur.fetchone()["vino_key"]

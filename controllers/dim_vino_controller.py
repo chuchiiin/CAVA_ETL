@@ -15,3 +15,19 @@ class DimVinoController:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Error al insertar los datos: {str(e)}"
             )
+    
+    def dbId_2_dwKey(self, dbId: str) -> int:
+        try:
+            dwKey = self.model.dbId_2_dwKey(dbId)
+            if dwKey:
+                return dwKey
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"El vino no existe en el DW: {str(e)}"
+                )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error al obtener la key del vino: {str(e)}"
+            )

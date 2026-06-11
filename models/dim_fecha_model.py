@@ -32,3 +32,8 @@ class DimFechaModel:
                 FROM fechas
                 ON CONFLICT (fecha_key) DO NOTHING;
             """)
+
+    def fecha_existe(self, fecha: date):
+        with self.dw.cursor() as cur:
+            cur.execute(f"SELECT * FROM dim_fecha WHERE fecha_key = '{fecha}';")
+            return cur.fetchone()
