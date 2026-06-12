@@ -1,9 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
         
-class producto_pedido(BaseModel):
-   cantidad : int
-
 class Botella(BaseModel):
     pedido_id: str
     lote: str
