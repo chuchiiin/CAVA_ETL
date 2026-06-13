@@ -52,3 +52,8 @@ class DimVinoModel:
         with self.dw.cursor() as cur:
             cur.execute(f"SELECT vino_key FROM dim_vino WHERE vino_id_original = '{dbId}';")
             return cur.fetchone()["vino_key"]
+
+    def get_total_ml(self, vino_id: str) -> int:
+        with self.db.cursor() as cur:
+            cur.execute(f"SELECT volumen FROM vino WHERE vino_id = '{vino_id}';")
+            return cur.fetchone()["volumen"]

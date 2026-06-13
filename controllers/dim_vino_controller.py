@@ -29,5 +29,21 @@ class DimVinoController:
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error al obtener la key del vino: {str(e)}"
+                detail=f"Error al obtener la key del vino (posiblemente el vino no existe): {str(e)}"
+            )
+        
+    def get_total_ml(self, vino_id: str) -> int:
+        try:
+            ml = self.model.get_total_ml(vino_id)
+            if ml:
+                return ml
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"El vino no existe en el DW: {str(e)}"
+                )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error al obtener los ml del vino: {str(e)}"
             )
