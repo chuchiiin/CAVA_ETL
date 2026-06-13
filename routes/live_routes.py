@@ -37,7 +37,3 @@ def actualizar_precios(precios: PrecioVino, controller: HechosPreciosVinosContro
 @router.post("/insertar_pedido")
 def insertar_pedido(pedido: Pedido, controller: HechosComprasController = Depends(compras_controller)):
     return controller.insertar_pedido_completo(pedido)
-
-@router.post("/insertar botella")
-def insertar_botella(botella: Botella, controller: DimBotellaController = Depends(botella_controller)):
-    return controller.insertar_botella(botella)
