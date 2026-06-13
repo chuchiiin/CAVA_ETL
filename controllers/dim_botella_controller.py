@@ -9,13 +9,21 @@ class DimBotellaController:
 
     def insertar_botella(self, botellas: Botella):
         try:
-    #       botellaDW = dimBotella(**self.model.insertar_botella(botellas)[0])
-    #       self.model.insertar_dimBotella(botellaDW)
-            self.model.insertar_botella(botellas)
-            Dim = dimBotella(
-                vino_key=self.vino_controller.dbId_2_dwKey(botellas.vino_id),
-            )
-            self.model.insertar_dimBotella(Dim)
+            botellas_insertadas = self.model.insertar_botella(botellas)
+
+            for botella_insertada in botellas_insertadas:
+                Dim = dimBotella(
+                    botella_id_original = botella_insertada["id_botella"],
+                    lote = botella_insertada["lote"],
+                    vino_key=self.vino_controller.dbId_2_dwKey(botella_insertada["vino_id"])
+                )
+
+                self.model.insertar_dimBotella(Dim)
+       
+            return {
+            "mensaje": "Botellas insertadas correctamente",
+            "cantidad_insertada": botellas.cantidad
+            }
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
