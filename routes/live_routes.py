@@ -27,7 +27,7 @@ def insertar_proveedor(proveedor: Proveedor, controller: DimProveedorController 
 def insertar_vino(vino: Vino, controller: DimVinoController = Depends(vino_controller)):
     return controller.insertar_vino(vino)
 
-@router.patch("/actualizar_precios")
+@router.post("/actualizar_precios")
 def actualizar_precios(precios: PrecioVino, controller: HechosPreciosVinosController = Depends(preciosvinos_controller)):
     return controller.actualizar_precio(precios)
 
