@@ -1,12 +1,13 @@
 from fastapi import HTTPException, status
 from models import HechosComprasModel, Pedido, Botella, RangoFechas, Compra
-from controllers import DimBotellaController, DimProveedorController
+from controllers import DimBotellaController, DimProveedorController, DimFechaController
 
 class HechosComprasController:
     def __init__(self, db_connection, dw_connection):
         self.model = HechosComprasModel(db_connection, dw_connection)
         self.botella_controller = DimBotellaController(db_connection, dw_connection)
         self.proveedor_controller = DimProveedorController(db_connection, dw_connection)
+        self.fecha_controller = DimFechaController(dw_connection)
 
     def insertar_pedido_completo(self, pedido: Pedido):
         try:
@@ -30,6 +31,8 @@ class HechosComprasController:
         try:
             registros = self.model.get_compras_rango(fechas)
             for registro in registros:
+                self.fecha_controller.validar_fecha(registro["fecha_pedido"])
+                self.fecha_controller.validar_fecha(registro["fecha_entrega"])
                 compra = Compra(
                     pedido_id_original=registro["pedido_id"],
                     provedor_key=self.proveedor_controller.dbId_2_dwKey(registro["proveedor_id"]),
