@@ -48,12 +48,12 @@ class DimVinoModel:
                 VALUES ('{vinoDB.vino_id}', '{vinoDB.nombre}', '{vinoDB.marca}', '{vinoDB.tipo}', '{vinoDB.region}','{vinoDB.cosecha}', '{vinoDB.anejado}', '{vinoDB.alcohol}', '{vinoDB.volumen}');
             """)
 
-    def dbId_2_dwKey(self, dbId: str) -> int:
+    def dbId_2_dwKey(self, dbId: str) -> List[Dict[str, Any]]:
         with self.dw.cursor() as cur:
             cur.execute(f"SELECT vino_key FROM dim_vino WHERE vino_id_original = '{dbId}';")
-            return cur.fetchone()["vino_key"]
+            return cur.fetchone()
 
-    def get_total_ml(self, vino_id: str) -> int:
+    def get_total_ml(self, vino_id: str) -> List[Dict[str, Any]]:
         with self.db.cursor() as cur:
             cur.execute(f"SELECT volumen FROM vino WHERE vino_id = '{vino_id}';")
-            return cur.fetchone()["volumen"]
+            return cur.fetchone()

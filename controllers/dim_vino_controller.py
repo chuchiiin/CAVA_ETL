@@ -20,7 +20,7 @@ class DimVinoController:
         try:
             dwKey = self.model.dbId_2_dwKey(dbId)
             if dwKey:
-                return dwKey
+                return dwKey["vino_key"]
             else:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
@@ -36,7 +36,7 @@ class DimVinoController:
         try:
             ml = self.model.get_total_ml(vino_id)
             if ml:
-                return ml
+                return ml["volumen"]
             else:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
