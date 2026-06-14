@@ -39,3 +39,10 @@ class DimProveedorModel:
                 INSERT INTO dim_proveedor (proveedor_id_original, nombre, telefono, correo, especialidad, tiempo_promedio, anotacion) 
                 VALUES ('{proveedorDB.proveedor_id}','{proveedorDB.nombre}','{proveedorDB.telefono}','{proveedorDB.correo}','{proveedorDB.especialidad}','{proveedorDB.tiempo_promedio}','{proveedorDB.anotacion}');
             """)
+
+    def dbId_2_dwKey(self, dbId: str) -> List[Dict[str, Any]]:
+        with self.dw.cursor() as cur:
+            cur.execute(f"""
+                SELECT proveedor_key FROM dim_proveedor WHERE proveedor_id_original = '{dbId}';
+            """)
+            return cur.fetchone()

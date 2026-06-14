@@ -32,4 +32,11 @@ class DimBotellaModel:
                 INSERT INTO dim_botella (botella_id_original, vino_key, lote)
                 VALUES ('{botellaDB.botella_id_original}','{botellaDB.vino_key}','{botellaDB.lote}');
             """)
+
+    def dbId_2_dwKey(self, dbId: int) -> List[Dict[str, Any]]:
+        with self.dw.cursor() as cur:
+            cur.execute(f"""
+                SELECT botella_key FROM dim_botella WHERE botella_id_original = {dbId};
+            """)
+            return cur.fetchone()
     

@@ -22,3 +22,19 @@ class DimBotellaController:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Error al insertar datos: {str(e)}"
             )
+        
+    def dbId_2_dwKey(self, dbId: int) -> int:
+        try:
+            dwKey = self.model.dbId_2_dwKey(dbId)
+            if dwKey:
+                return dwKey["botella_key"]
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"La botella no existe en el DW: {str(e)}"
+                )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error al obtener la key de la botella (posiblemente la botella no existe): {str(e)}"
+            )
