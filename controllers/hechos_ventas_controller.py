@@ -34,8 +34,8 @@ class HechosVentasController:
                     precio=venta_origen.registro_precio
                 )
 
-                self.model.insertar_venta(venta_dw)
-                cantidad_insertada += 1
+                insertadas = self.model.insertar_venta(venta_dw)
+                cantidad_insertada += insertadas
 
             return {
                 "mensaje": "ETL de ventas ejecutado correctamente",
