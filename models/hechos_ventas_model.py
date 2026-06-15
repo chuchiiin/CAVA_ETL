@@ -55,15 +55,20 @@ class HechosVentasModel:
         return [VentaOrigen(**row) for row in rows]
     
 
-    def insertar_venta(self, venta: Venta) -> List[Dict[str, Any]]:
-        with self.dw.cursor() as cur:
+    def insertar_venta(self, venta: Venta) -> int:
+       with self.dw.cursor() as cur:
             cur.execute(f"""
                 INSERT INTO hechos_ventas(venta_id_original, botella_key, fecha_key, hora, tipo, ml, precio)
-                VALUES ('{venta.venta_id_original}','{venta.botella_key}','{venta.fecha_key}','{venta.hora}','{venta.tipo}','{venta.ml}','{venta.precio}');
-            """)
+                SELECT '{venta.venta_id_original}','{venta.botella_key}','{venta.fecha_key}','{venta.hora}', '{venta.tipo}','{venta.ml}','{venta.precio}'
+                WHERE NOT EXISTS (
+                SELECT 1
+                FROM hechos_ventas
+                WHERE venta_id_original = '{venta.venta_id_original}'
+                  AND botella_key = '{venta.botella_key}'
+                );
+                """)
 
+            insertadas = cur.rowcount
             self.dw.commit()
 
-        return {
-            "mensaje": "Venta insertada correctamente en hechos_ventas"
-        }
+       return insertadas
