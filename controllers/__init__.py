@@ -4,6 +4,8 @@ from .dim_fecha_controller import DimFechaController
 from .hechos_preciosvinos_controller import HechosPreciosVinosController
 from .dim_botella_controller import DimBotellaController
 from .hechos_compras_controller import HechosComprasController
+from .hechos_ventas_controller import HechosVentasController
+
 
 __all__ = [
     "DimProveedorController",
@@ -11,5 +13,6 @@ __all__ = [
     "DimFechaController",
     "HechosPreciosVinosController",
     "DimBotellaController",
-    "HechosComprasController"
+    "HechosComprasController",
+    "HechosVentasController"
 ]

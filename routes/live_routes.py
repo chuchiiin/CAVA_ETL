@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from core import get_db, get_dw
-from controllers import DimProveedorController, DimVinoController, HechosPreciosVinosController, DimBotellaController, HechosComprasController
-from models import Proveedor, Vino, PrecioVino, Botella, Pedido
+from controllers import DimProveedorController, DimVinoController, HechosPreciosVinosController, DimBotellaController, HechosComprasController, HechosVentasController
+from models import Proveedor, Vino, PrecioVino, Pedido, Venta
 
 router = APIRouter(prefix="/live", tags=["Live"])
 
@@ -21,6 +21,7 @@ def botella_controller(db = Depends(get_db), dw = Depends(get_dw)):
 
 def compras_controller(db = Depends(get_db), dw = Depends(get_dw)):
     return HechosComprasController(db, dw)
+
 
 @router.post("/insertar_proveedor")
 def insertar_proveedor(proveedor: Proveedor, controller: DimProveedorController = Depends(proveedor_controller)):
