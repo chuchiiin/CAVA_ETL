@@ -26,12 +26,14 @@ class DimBotellaModel:
             """)
             return cur.fetchone()
     
-    def insertar_dimBotella(self, botellaDB: DimBotella) -> List:
+    def insertar_dimBotella(self, botellaDB: DimBotella) -> List[Dict[str, Any]]:
         with self.dw.cursor() as cur:
             cur.execute(f"""
                 INSERT INTO dim_botella (botella_id_original, vino_key, lote)
-                VALUES ('{botellaDB.botella_id_original}','{botellaDB.vino_key}','{botellaDB.lote}');
+                VALUES ('{botellaDB.botella_id_original}','{botellaDB.vino_key}','{botellaDB.lote}')
+                RETURNING botella_key;
             """)
+            return cur.fetchone()
 
     def dbId_2_dwKey(self, dbId: int) -> List[Dict[str, Any]]:
         with self.dw.cursor() as cur:

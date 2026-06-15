@@ -5,6 +5,7 @@ from .hechos_preciosvinos_model import HechosPreciosVinosModel, PrecioVino, Hech
 from .dim_botella_model import DimBotellaModel, Botella, DimBotella
 from .hechos_compras_model import HechosComprasModel, Pedido, ProductoPedido, RangoFechas, Compra
 from .hechos_ventas_model import HechosVentasModel, RangoFechas, VentaOrigen, Venta
+from .hechos_historialbotella_model import HechosHistorialBotellaModel, AgregarBotella
 
 __all__=[
     "Proveedor","DimProveedor","DimProveedorModel",
@@ -13,5 +14,6 @@ __all__=[
     "HechosPreciosVinosModel", "PrecioVino", "HechoPrecioVino",
     "DimBotellaModel", "Botella", "DimBotella",
     "HechosComprasModel", "Pedido", "ProductoPedido", "RangoFechas", "Compra",
-    "HechosVentasModel", "RangoFechas", "VentaOrigen", "Venta"
+    "HechosVentasModel", "RangoFechas", "VentaOrigen", "Venta",
+    "HechosHistorialBotellaModel", "AgregarBotella"
 ]   
