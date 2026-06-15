@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from core import get_db, get_dw
-from controllers import DimProveedorController, DimVinoController, HechosPreciosVinosController, DimBotellaController, HechosComprasController, HechosVentasController
-from models import Proveedor, Vino, PrecioVino, Pedido, Venta
+from controllers import DimProveedorController, DimVinoController, HechosPreciosVinosController, DimBotellaController, HechosComprasController, HechosHistorialBotellaController
+from models import Proveedor, Vino, PrecioVino, Pedido, Posicion
 
 router = APIRouter(prefix="/live", tags=["Live"])
 
@@ -22,6 +22,9 @@ def botella_controller(db = Depends(get_db), dw = Depends(get_dw)):
 def compras_controller(db = Depends(get_db), dw = Depends(get_dw)):
     return HechosComprasController(db, dw)
 
+def historialbotella_controller(db = Depends(get_db), dw = Depends(get_dw)):
+    return HechosHistorialBotellaController(db, dw)
+
 
 @router.post("/insertar_proveedor")
 def insertar_proveedor(proveedor: Proveedor, controller: DimProveedorController = Depends(proveedor_controller)):
@@ -38,3 +41,7 @@ def actualizar_precios(precios: PrecioVino, controller: HechosPreciosVinosContro
 @router.post("/insertar_pedido")
 def insertar_pedido(pedido: Pedido, controller: HechosComprasController = Depends(compras_controller)):
     return controller.insertar_pedido_completo(pedido)
+
+@router.patch("/cambiar_posicion")
+def cambiar_posicion(posicion: Posicion, controller: HechosHistorialBotellaController = Depends(historialbotella_controller)):
+    return controller.cambio_posicion(posicion)
