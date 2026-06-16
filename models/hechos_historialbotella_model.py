@@ -64,3 +64,11 @@ class HechosHistorialBotellaModel:
         with self.dw.cursor() as cur:
             cur.execute(f"SELECT * FROM hechos_historialbotellas WHERE botella_key = {botella_key} AND actual = true;")
             return cur.fetchone()
+        
+    def actualizar_ml_db(self, ml_restados: int, id_botella: int) -> List[Dict[str, Any]]:
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                UPDATE botella SET ml_restantes = ml_restantes - {ml_restados} WHERE id_botella = {id_botella}
+                RETURNING *;
+            """)
+            return cur.fetchone()

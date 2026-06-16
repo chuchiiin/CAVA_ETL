@@ -45,3 +45,22 @@ class DimBotellaController:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Error al obtener la key de la botella (posiblemente la botella no existe): {str(e)}"
             )
+        
+    def get_botella_precio(self, id_botella: int, tipo: str) -> float:
+        try:
+            precios = self.model.precios_botella(id_botella)
+            if precios:
+                if(tipo == "copa"):
+                    return precios["precio_copa"]
+                else:
+                    return precios["precio_botella"]
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"La botella no existe en el DW: {str(e)}"
+                )
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error al obtener los precios de la botella (posiblemente la botella no existe): {str(e)}"
+            )

@@ -41,4 +41,13 @@ class DimBotellaModel:
                 SELECT botella_key FROM dim_botella WHERE botella_id_original = {dbId};
             """)
             return cur.fetchone()
+        
+    def precios_botella(self, id_botella: int) -> List[Dict[str, Any]]:
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                SELECT precio_copa, precio_botella FROM botella as b
+                INNER JOIN vino as v ON v.vino_id = b.vino_id
+                WHERE id_botella = {id_botella};
+            """)
+            return cur.fetchone()
     

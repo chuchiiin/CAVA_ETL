@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from core import get_db, get_dw
-from controllers import DimProveedorController, DimVinoController, HechosPreciosVinosController, DimBotellaController, HechosComprasController, HechosHistorialBotellaController
-from models import Proveedor, Vino, PrecioVino, Pedido, Posicion
+from typing import List
+from controllers import DimProveedorController, DimVinoController, HechosPreciosVinosController, DimBotellaController, HechosComprasController, HechosHistorialBotellaController, HechosVentasController
+from models import Proveedor, Vino, PrecioVino, Pedido, Posicion, ProductoVendido
 
 router = APIRouter(prefix="/live", tags=["Live"])
 
@@ -25,6 +26,8 @@ def compras_controller(db = Depends(get_db), dw = Depends(get_dw)):
 def historialbotella_controller(db = Depends(get_db), dw = Depends(get_dw)):
     return HechosHistorialBotellaController(db, dw)
 
+def ventas_controller(db = Depends(get_db), dw = Depends(get_dw)):
+    return HechosVentasController(db, dw)
 
 @router.post("/insertar_proveedor")
 def insertar_proveedor(proveedor: Proveedor, controller: DimProveedorController = Depends(proveedor_controller)):
@@ -45,3 +48,7 @@ def insertar_pedido(pedido: Pedido, controller: HechosComprasController = Depend
 @router.patch("/cambiar_posicion")
 def cambiar_posicion(posicion: Posicion, controller: HechosHistorialBotellaController = Depends(historialbotella_controller)):
     return controller.cambio_posicion(posicion)
+
+@router.post("/insertar_venta")
+def insertar_venta(venta: List[ProductoVendido], controller: HechosVentasController = Depends(ventas_controller)):
+    return controller.nueva_venta(venta)

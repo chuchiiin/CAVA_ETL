@@ -26,6 +26,12 @@ class Venta(BaseModel):
     ml: int
     precio: float
 
+class ProductoVendido(BaseModel):
+    id_venta: Optional[str] = None
+    id_botella: int
+    tipo: str
+    ml: int
+    registro_precio: Optional[float] = None
 
 class HechosVentasModel:
     def __init__(self, db_connection, dw_connection):
@@ -70,5 +76,20 @@ class HechosVentasModel:
 
             insertadas = cur.rowcount
             self.dw.commit()
-
        return insertadas
+    
+    def nueva_venta(self) -> List[Dict[str, Any]]:
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                INSERT INTO venta(fecha_hora)
+                VALUES (NOW())
+                RETURNING *;
+            """)
+            return cur.fetchone()
+            
+    def insertar_producto_vendido(self, producto_vendido: ProductoVendido):
+        with self.db.cursor() as cur:
+            cur.execute(f"""
+                INSERT INTO producto_vendido(id_venta, id_botella, tipo, ml, registro_precio)
+                VALUES ('{producto_vendido.id_venta}',{producto_vendido.id_botella},'{producto_vendido.tipo}',{producto_vendido.ml},'{producto_vendido.registro_precio}')
+            """)
